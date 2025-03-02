@@ -5,7 +5,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 DEBUG = os.environ.get('DJANGO_DEBUG')
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = [os.environ.get('DJANGO_ALLOWED_HOST')]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -20,7 +20,7 @@ INSTALLED_APPS = [
     'autos',
     'bases',
     'consumption',
-    'worktime'
+    'worktime',
     'telegram_bot',
 ]
 
