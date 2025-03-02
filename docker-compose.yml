@@ -62,7 +62,7 @@ services:
       DB_PORT: ${DB_PORT}
       REDIS_HOST: ${REDIS_HOST}
       PYTHONUNBUFFERED: 1
-    command: celery -A dls worker -l info
+    command: celery -A dellin_work worker -l info
 
   dlwork_celerybeat:
     build: .
@@ -81,7 +81,7 @@ services:
       DB_PORT: ${DB_PORT}
       REDIS_HOST: ${REDIS_HOST}
       PYTHONUNBUFFERED: 1
-    command: celery -A dls beat -l info
+    command: celery -A dellin_work beat -l info
 
   dlwork_bot:
     build: .
