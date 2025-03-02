@@ -4,6 +4,7 @@ from django.contrib.auth.models import Group
 from profile_management.utils import get_random_password
 from telegram_bot.create_bot import bot
 from telegram_bot.finit_states.registration import RegistrationFSM
+from telegram_bot.funcs.menu import send_menu
 from telegram_bot.keyboards.easy_keyboards import get_rm_by_str
 from bases.models import City, Base
 from telegram_bot.keyboards.registration import get_city_buttons, get_bases_buttons
@@ -125,8 +126,9 @@ async def f_registration_add_user(tg_id: int, state: FSMContext):
         base_id=state_data.get("reg_base"),
         telegram_id=tg_id,
     )
-    await user.groups.aadd(Group.objects.get(name="MKTDriver"))
+    await user.groups.aadd(await Group.objects.aget(name="MKTDriver"))
     await bot.send_message(chat_id=tg_id,
                            text="Вы успешно зарегистрировались! Если при регистрации было "
                                 "введено что-то неверно, ничего страшного. Вы всегда можете "
                                 "поменять свои данные в настройках")
+    await send_menu(tg_id, state)
