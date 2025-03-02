@@ -32,7 +32,9 @@ services:
       DB_PORT: ${DB_PORT}
       REDIS_HOST: ${REDIS_HOST}
       PYTHONUNBUFFERED: 1
-    entrypoint: bash -c  "python manage.py collectstatic --noinput && python manage.py migrate && gunicorn --bind 0.0.0.0:5000 dls.wsgi:application";
+    entrypoint: bash -c  "python manage.py collectstatic --noinput && python manage.py migrate && gunicorn --bind 0.0.0.0:5000 dellin_work.wsgi:application";
+    volumes:
+      - /home/dellinwt/static:/src/static
     depends_on:
       - dlwork_database
     restart: always
