@@ -22,11 +22,6 @@ services:
       - "${GUNICORN_PORT}:5000"
     environment:
       TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
-      TG_WEBHOOKS_MODE: ${TG_WEBHOOKS_MODE}
-      TG_WEB_SERVER_HOST: ${TG_WEB_SERVER_HOST}
-      TG_WEB_SERVER_PORT: ${TG_WEB_SERVER_PORT}
-      TG_WEBHOOK_SECRET: ${TG_WEBHOOK_SECRET}
-      TG_WEBHOOK_PATH: ${TG_WEBHOOK_PATH}
       DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
       DJANGO_DEBUG: ${DJANGO_DEBUG}
       DJANGO_ALLOWED_HOST: ${DJANGO_ALLOWED_HOST}
@@ -34,19 +29,12 @@ services:
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
       DB_HOST: ${DB_HOST}
-      REDIS_HOST: ${REDIS_HOST}
       DB_PORT: ${DB_PORT}
-      TGPARSER_SESSION_NAME: ${TGPARSER_SESSION_NAME}
-      TGPARSER_API_ID: ${TGPARSER_API_ID}
-      TGPARSER_API_HASH: ${TGPARSER_API_HASH}
-      TGPARSER_CHANNEL_NAME: ${TGPARSER_CHANNEL_NAME}
+      REDIS_HOST: ${REDIS_HOST}
       PYTHONUNBUFFERED: 1
     entrypoint: bash -c  "python manage.py collectstatic --noinput && python manage.py migrate && gunicorn --bind 0.0.0.0:5000 dls.wsgi:application";
     depends_on:
       - dlwork_database
-    volumes:
-      - /home/sdo/kitaischool/media:/src/media
-      - /home/sdo/static:/src/static
     restart: always
 
   dlwork_redis:
@@ -62,11 +50,6 @@ services:
       - dlwork_django
     environment:
       TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
-      TG_WEBHOOKS_MODE: ${TG_WEBHOOKS_MODE}
-      TG_WEB_SERVER_HOST: ${TG_WEB_SERVER_HOST}
-      TG_WEB_SERVER_PORT: ${TG_WEB_SERVER_PORT}
-      TG_WEBHOOK_SECRET: ${TG_WEBHOOK_SECRET}
-      TG_WEBHOOK_PATH: ${TG_WEBHOOK_PATH}
       DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
       DJANGO_DEBUG: ${DJANGO_DEBUG}
       DJANGO_ALLOWED_HOST: ${DJANGO_ALLOWED_HOST}
@@ -86,11 +69,6 @@ services:
       - dlwork_django
     environment:
       TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
-      TG_WEBHOOKS_MODE: ${TG_WEBHOOKS_MODE}
-      TG_WEB_SERVER_HOST: ${TG_WEB_SERVER_HOST}
-      TG_WEB_SERVER_PORT: ${TG_WEB_SERVER_PORT}
-      TG_WEBHOOK_SECRET: ${TG_WEBHOOK_SECRET}
-      TG_WEBHOOK_PATH: ${TG_WEBHOOK_PATH}
       DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
       DJANGO_DEBUG: ${DJANGO_DEBUG}
       DJANGO_ALLOWED_HOST: ${DJANGO_ALLOWED_HOST}
@@ -105,14 +83,8 @@ services:
 
   dlwork_bot:
     build: .
-    ports:
-      - "${TG_WEB_SERVER_PORT}:8080"
     environment:
       TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
-      TG_WEBHOOKS_MODE: ${TG_WEBHOOKS_MODE}
-      TG_WEB_SERVER_HOST: ${TG_WEB_SERVER_HOST}
-      TG_WEBHOOK_SECRET: ${TG_WEBHOOK_SECRET}
-      TG_WEBHOOK_PATH: ${TG_WEBHOOK_PATH}
       DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
       DJANGO_DEBUG: ${DJANGO_DEBUG}
       DJANGO_ALLOWED_HOST: ${DJANGO_ALLOWED_HOST}
@@ -124,9 +96,6 @@ services:
       REDIS_HOST: ${REDIS_HOST}
       PYTHONUNBUFFERED: 1
     entrypoint: bash -c  "python manage.py runbot";
-    volumes:
-      - /home/sdo/kitaischool/media:/src/media
-      - /home/sdo/kitaischool/logs:/src/logs
     depends_on:
       - dlwork_celery
       - dlwork_redis
